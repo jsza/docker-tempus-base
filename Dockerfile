@@ -37,3 +37,11 @@ ENV STEAMCMD $HOME/steamcmd
 
 RUN mkdir $STEAMCMD && wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $STEAMCMD -xvz
 RUN $STEAMCMD/steamcmd.sh +quit
+
+USER root
+RUN apt-get -qy install --no-install-recommends sudo
+
+# SRCDS is the nicest
+ENTRYPOINT ["/usr/bin/nice", "-n", "-20", \
+            "/usr/bin/ionice", "-c", "1", \
+            "/usr/bin/sudo", "--user", "steam", "/srv/srcds/srcds_run"]
