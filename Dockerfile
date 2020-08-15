@@ -1,6 +1,5 @@
-FROM debian:stretch
+FROM i386/debian:buster
 
-RUN dpkg --add-architecture i386
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
         apt-get -qy install --no-install-recommends \
@@ -9,19 +8,20 @@ RUN apt-get update \
         ca-certificates \
         gcc \
         git \
-        libpq5:i386 \
-        libgcc1:i386 \
-        libtinfo5:i386 \
-        libncurses5:i386 \
-        lib32stdc++6 \
-        libcurl3-gnutls:i386 \
+        libpq5 \
+        libgcc1 \
+        libtinfo5 \
+        libncurses5 \
+        libstdc++6 \
+        libcurl3-gnutls \
         wget \
         libffi-dev \
         python-dev \
         libssl-dev \
         zip \
         rsync \
-    && pip install virtualenv \
+    && python -m pip install --upgrade pip setuptools \
+    && python -m pip install virtualenv \
     && python -m virtualenv /venv \
     && /venv/bin/pip install --no-cache-dir \
         https://github.com/jsza/getoverhere/zipball/master \
